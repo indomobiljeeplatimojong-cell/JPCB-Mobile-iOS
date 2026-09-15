@@ -1,0 +1,55 @@
+name: Build JPCB Mobile iOS
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-ios:
+    name: Build iOS App
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install XcodeGen
+        run: |
+          brew update
+          brew install xcodegen
+
+      - name: Check tools
+        run: |
+          xcodegen version
+          xcodebuild -version
+
+      - name: Generate Xcode project
+        run: |
+          xcodegen generate
+
+      - name: Build for iOS Simulator
+        run: |
+          xcodebuild \
+            -project JPCBMobile.xcodeproj \
+            -scheme JPCBMobile \
+            -sdk iphonesimulator \
+            -configuration Debug \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            build
+
+      - name: Package Xcode project
+        run: |
+          zip -r JPCB-Mobile-iOS-xcodeproj.zip \
+            JPCBMobile.xcodeproj \
+            project.yml \
+            JPCBMobile
+
+      - name: Upload build project artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: JPCB-Mobile-iOS-xcodeproj
+          path: JPCB-Mobile-iOS-xcodeproj.zip
