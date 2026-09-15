@@ -1,0 +1,26 @@
+name: JPCBMobile
+
+options:
+  deploymentTarget:
+    iOS: "16.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+
+targets:
+  JPCBMobile:
+    type: application
+    platform: iOS
+    deploymentTarget: "16.0"
+
+    sources:
+      - path: JPCBMobile
+
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.indomobiljeeplatimojong.jpcbmobile
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: JPCB Mobile
+        TARGETED_DEVICE_FAMILY: "1,2"
