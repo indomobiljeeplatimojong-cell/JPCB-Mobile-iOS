@@ -29,7 +29,7 @@ jobs:
         run: |
           xcodegen generate
 
-      - name: Build for iOS Simulator
+      - name: Build iOS Simulator
         run: |
           xcodebuild \
             -project JPCBMobile.xcodeproj \
@@ -41,6 +41,25 @@ jobs:
             CODE_SIGNING_REQUIRED=NO \
             build
 
+      - name: Build iOS Device App
+        run: |
+          xcodebuild \
+            -project JPCBMobile.xcodeproj \
+            -scheme JPCBMobile \
+            -sdk iphoneos \
+            -configuration Release \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            build
+
+      - name: Create unsigned IPA
+        run: |
+          mkdir -p Payload
+          cp -R "build/Build/Products/Release-iphoneos/JPCB Mobile.app" Payload/
+          zip -r "JPCB-Mobile-iOS-unsigned.ipa" Payload
+          rm -rf Payload
+
       - name: Package Xcode project
         run: |
           zip -r JPCB-Mobile-iOS-xcodeproj.zip \
@@ -48,8 +67,10 @@ jobs:
             project.yml \
             JPCBMobile
 
-      - name: Upload build project artifact
+      - name: Upload iOS artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: JPCB-Mobile-iOS-xcodeproj
-          path: JPCB-Mobile-iOS-xcodeproj.zip
+          name: JPCB-Mobile-iOS-build
+          path: |
+            JPCB-Mobile-iOS-unsigned.ipa
+            JPCB-Mobile-iOS-xcodeproj.zip
