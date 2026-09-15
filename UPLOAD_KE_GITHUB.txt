@@ -1,0 +1,17 @@
+JPCB-Mobile-iOS — CARA UPLOAD
+
+1. Buka repository GitHub JPCB-Mobile-iOS.
+2. Klik Add file -> Upload files.
+3. Upload seluruh isi folder JPCB-Mobile-iOS ini:
+   - .github/
+   - JPCBMobile/
+   - project.yml
+   - README.md
+   - UPLOAD_KE_GITHUB.txt
+4. Commit changes ke branch main.
+5. Buka Actions -> Build JPCB Mobile iOS.
+6. Tunggu sampai build selesai.
+
+PENTING:
+- Jangan upload folder JPCB-Mobile-iOS di dalam JPCB-Mobile-iOS.
+- Isi folder inilah yang langsung di-upload ke root repository.
